@@ -11,7 +11,7 @@
 		<script>
 			$(document).ready(function () {	
 				$("#getphotos").click(requestphotos);
-			}
+			});
 				
 
 			function requestphotos(){
@@ -25,9 +25,7 @@
 						"per_page" : 5,
 						"page" : 1,
 						"nojsoncallback": 1,
-						"format" : "json",
-						"extras" : "'tags=lion'",
-					},
+						"format" : "json"					},
 					success : showphotos
 				})
 				
