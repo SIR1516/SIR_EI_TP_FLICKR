@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<style>
+			div#result img {
+				margin:5px;
+				border-radius : 25px;
+			}
+		</style>
+		
+		<script src="jquery/jquery-2.1.4.js"></script>
+		<script>
+			$(document).ready(function () {	
+				$("#getphotos").click(requestphotos);
+			}
+				
+
+			function requestphotos(){
+				//pedido da ultimas 5 photos
+				$.ajax("https://api.flickr.com/services/rest/?", {
+					method : "GET",
+					dataType : "json",
+					data : {
+						"method" : "flickr.photos.getRecent",
+						"api_key" : "923e2d1e110cede03db46682ba609dd5",
+						"per_page" : 5,
+						"page" : 1,
+						"nojsoncallback": 1,
+						"format" : "json",
+						"extras" : "'tags=lion'",
+					},
+					success : showphotos
+				})
+				
+				photo = $("<p/>").html(":)");
+				$("#result").append(photo);
+			};
+			
+			
+			
+			function showphotos(data) {
+				//alert(data.photos.photo);			
+				
+				$.each(data.photos.photo, function (idx,val) {
+					url = "https://farm"+val.farm+".staticflickr.com/"+val.server+"/"+val.id + "_" + val.secret + "_s.jpg";
+					newphoto = $("<img>").attr("src",url);
+					$("#result").append(newphoto);
+					
+					//alert(url);
+				})
+			}
+			
+		</script>
+	</head>
+	<body>
+		<div id="result"></div>
+		<div id="control">
+			<button id="getphotos">Get Photos</button>
+		</div>
+	</body>
+</html>
